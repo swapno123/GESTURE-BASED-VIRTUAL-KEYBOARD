@@ -23,7 +23,7 @@ class Button():
         self.size = size
         self.text = text
 
-
+#this is keyboard layout
 keys = [["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "CL"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "SP"],
         ["Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Search"]]
@@ -41,6 +41,7 @@ def drawAll(img, buttonList):
                     cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
     return img
 
+# Create buttons
 buttonList = []
 buttonList1 = []
 list = []
@@ -55,7 +56,7 @@ for i in range(len(keys1)):
 app = 0      
 delay = 0
 
-def calculate_distance(x1, y1, x2, y2):
+def calculate_distance(x1, y1, x2, y2): # Distance calculation function
     distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
     return distance
 
@@ -63,6 +64,7 @@ x = [300, 245, 200, 170, 145, 130, 112, 103, 93, 87, 80, 75, 70, 67, 62, 59, 57]
 y = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
 coff = np.polyfit(x, y, 2) 
 
+# Main loop
 while True:
     sucess, frame = cap.read()
     frame = cv2.resize(frame, (1000, 580))
@@ -79,14 +81,16 @@ while True:
         frame = drawAll(frame, buttonList1) 
         list = buttonList1 
         r = "down"
-    
+        
+    # Detect hand landmarks
     if results.multi_hand_landmarks:
         for hn in results.multi_hand_landmarks:
             for id, lm in enumerate(hn.landmark):
                 hl, wl, cl = frame.shape
                 cx, cy = int(lm.x * wl), int(lm.y * hl)     
                 lanmark.append([id, cx, cy]) 
-    
+
+    # Gesture-based typing
     if lanmark != 0:
         try:
             x5, y5 = lanmark[5][1], lanmark[5][2]
@@ -155,6 +159,8 @@ while True:
     
     cv2.rectangle(frame, (20, 250), (850, 400), (255, 255, 255), cv2.FILLED)
     cv2.putText(frame, text, (30, 300), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 3)
+
+    # Display frame
     cv2.imshow('virtual keyboard', frame)
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
