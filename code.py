@@ -4,7 +4,7 @@ import numpy as np
 from time import sleep
 import math 
 from pynput.keyboard import Controller
-import webbrowser  # Importing webbrowser module to open Google search
+import webbrowser  
 
 mpHands = mp.solutions.hands
 hands = mpHands.Hands(static_image_mode=False, max_num_hands=1, min_detection_confidence=0.5, min_tracking_confidence=0.5)
@@ -23,7 +23,7 @@ class Button():
         self.size = size
         self.text = text
 
-# Updated keyboard with a "Search" button
+
 keys = [["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "CL"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "SP"],
         ["Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Search"]]
@@ -128,11 +128,11 @@ while True:
                                     keyboard.press('\b')
                                     
                                 elif k == "Search":
-                                    # Trigger Google Search
+                                    
                                     query = text.strip().replace(" ", "+")
                                     if query:
                                         webbrowser.open(f"https://www.google.com/search?q={query}")
-                                    text = ""  # Clear text after search
+                                    text = ""  
                                     
                                 elif k == "APR" and r == "up":
                                     app = 1
